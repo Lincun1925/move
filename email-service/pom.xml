@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>springboot-vue-cloud</artifactId>
+        <groupId>com.wsh</groupId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <artifactId>email-service</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>email-service</name>
+    <description>email-service</description>
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+    <packaging>jar</packaging>
+    <dependencies>
+        <!--        邮箱验证码所需依赖-->
+        <dependency>
+            <groupId>jar</groupId>
+            <artifactId>mail</artifactId>
+            <version>0</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/src/main/resources/lib/mail.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>jar</groupId>
+            <artifactId>activation</artifactId>
+            <version>0</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/src/main/resources/lib/activation.jar</systemPath>
+        </dependency>
+        <!--        nacos服务注册发现依赖-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+            <version>2.2.5.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
