@@ -5,11 +5,11 @@ spring:
     name: emailservice
   cloud:
     nacos:
-      server-addr: localhost:8848 #nacos
+      server-addr: 124.222.212.173:8848 #nacos
   rabbitmq:
     port: 5672
     virtual-host: /
-    host: 192.168.112.128
+    host: 124.222.212.173
     username: root
     password: root
     #消费者确认机制
@@ -23,7 +23,7 @@ spring:
           multiplier: 3 #重试设置倍数
           max-attempts: 5 #最大重试次数
   redis:
-    host: 192.168.112.128
+    host: 124.222.212.173
     port: 6379
     lettuce:
       pool:

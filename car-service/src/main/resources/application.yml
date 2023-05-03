@@ -5,20 +5,20 @@ spring:
     name: carservice
   cloud:
     nacos:
-      server-addr: localhost:8848 #nacos地址
+      server-addr: 124.222.212.173:8848 #nacos地址
 
     # 流控，熔断降级，sentinel控制台地址
     sentinel:
       transport:
-        dashboard: localhost:8888
-        port: 8719
+        dashboard: 124.222.212.173:8180
+        port: 8180
 
 #     数据源配置1，非读写分离
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: 1234
-    url: jdbc:mysql://192.168.112.128:3306/car?useSSL=false&characterEncoding=utf-8
+    url: jdbc:mysql://124.222.212.173:3306/car?useSSL=false&characterEncoding=utf-8
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
 #      最初、最小、最大线程数
@@ -27,7 +27,7 @@ spring:
       max-active: 10
 #      max-wait: 设置连接的最大等待时长
   redis:
-    host: 192.168.112.128
+    host: 124.222.212.173
     port: 6379
     lettuce:
       pool:
@@ -89,7 +89,7 @@ seata:
   registry:
     type: nacos
     nacos:
-      server-addr: localhost:8848
+      server-addr: 124.222.212.173:8848
       namespace: ""
       group: DEFAULT_GROUP
       application: seata-server #tc服务名称
