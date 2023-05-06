@@ -1,24 +1,45 @@
 package com.wsh.userservice.config;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 
 @Slf4j
 @Configuration
-public class MQConfig implements ApplicationContextAware {
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        //获取对象
-        RabbitTemplate bean = applicationContext.getBean(RabbitTemplate.class);
-        //配置消息回执函数
-        bean.setReturnCallback((msg,replyCode,replyText,exchange,routingKey)->{
-            //记录日志
-            log.error("消息发送到队列失败，响应码:{}，失败原因:{}，交换机:{}，路由key:{}，消息:{}",replyCode,replyText,exchange,routingKey,msg.toString());
-            //可再次发送消息
-        });
+public class MQConfig {
+    @Value("${spring.rabbitmq.host}")
+    private String host;
+    @Value("${spring.rabbitmq.port}")
+    private int port;
+    @Value("${spring.rabbitmq.username}")
+    private String username;
+    @Value("${spring.rabbitmq.password}")
+    private String password;
+    @Value("${spring.rabbitmq.virtual-host}")
+    private String virtualHost;
+
+    @Bean
+    public ConnectionFactory connectionFactory() {
+        CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
+        connectionFactory.setHost(host);
+        connectionFactory.setUsername(username);
+        connectionFactory.setPassword(password);
+        connectionFactory.setPort(port);
+        connectionFactory.setVirtualHost(virtualHost);
+        return connectionFactory;
+    }
+
+    @Bean
+    @Scope("prototype")
+    public RabbitTemplate rabbitTemplate() {
+        return new RabbitTemplate(connectionFactory());
     }
 }
