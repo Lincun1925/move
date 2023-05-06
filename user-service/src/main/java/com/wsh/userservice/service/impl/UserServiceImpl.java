@@ -37,6 +37,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public Result sendCode(String email) {
+        rabbitTemplate.setReturnCallback(null);
+        rabbitTemplate.setConfirmCallback(null);
         //rabbitmq添加回调函数，成功到达队列，返回ack，无法到达队列，返回nack
         rabbitTemplate.setConfirmCallback(new RabbitTemplate.ConfirmCallback() {
             @Override
