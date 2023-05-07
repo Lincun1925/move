@@ -37,32 +37,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public Result sendCode(String email) {
-        rabbitTemplate.setReturnCallback(null);
-        rabbitTemplate.setConfirmCallback(null);
-        //rabbitmq添加回调函数，成功到达队列，返回ack，无法到达队列，返回nack
-        rabbitTemplate.setConfirmCallback(new RabbitTemplate.ConfirmCallback() {
-            @Override
-            public void confirm(CorrelationData correlationData, boolean b, String s) {
-                if (b) {
-                    log.info("消息成功发送到队列，id为{}", correlationData.getId());
-                } else {
-                    log.error("消息发送失败，id为{}，错误信息：{}", correlationData.getId(), s);
-                }
-            }
-        });
-        //rabbitmq添加回执函数，当mandatory设置为true，消息无法路由到队列，则执行回执，否则直接丢弃
-        rabbitTemplate.setReturnCallback(new RabbitTemplate.ReturnCallback() {
-            @Override
-            public void returnedMessage(Message message, int code, String text, String exchange, String routingKey) {
-                String id = message.getMessageProperties().getCorrelationId();
-                log.error("消息无法路由到队列，执行回执，id为{}", id);
-                //该消息未被消费，则重新发送
-                if (stringRedisTemplate.opsForValue().get(id) == null) {
-                    rabbitTemplate.convertAndSend(message);
-                }
-            }
-        });
-
         if (StrUtil.isNotBlank(email)) {
             //1.异步调用验证码服务，直接存消息队列里
 //            String queueName = "email.queue";
@@ -70,14 +44,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             //2.发送给交换机，交换机路由队列
             String exchangeName = "email.direct";
             //3.correlationData设置全局唯一ID
-            CorrelationData correlationData = new CorrelationData(IdUtil.getSnowflake().nextIdStr());
 //            rabbitTemplate.convertAndSend(exchangeName,"email",email,correlationData);
             //发送持久化消息
             Message msg = MessageBuilder.withBody(email.getBytes())//消息体转字节
                     .setDeliveryMode(MessageDeliveryMode.PERSISTENT)//消息持久化
                     .setExpiration("15000")
+                    .setCorrelationId(IdUtil.getSnowflake().nextIdStr())
                     .build();
-            rabbitTemplate.convertAndSend(exchangeName, "email", msg, correlationData);
+            rabbitTemplate.convertAndSend(exchangeName, "email", msg);
             return Result.success(null);
         }
         return Result.error("验证码发送失败");

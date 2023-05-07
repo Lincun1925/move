@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import utils.MailCodeUtils;
 import utils.ValidateCodeUtils;
 import lombok.extern.slf4j.Slf4j;
+
 import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
@@ -25,8 +26,8 @@ public class SpringRabbitListener {
     private StringRedisTemplate stringRedisTemplate;
 
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(value = "email.queue",durable = "true"),
-            exchange = @Exchange(value = "email.direct",durable = "true",autoDelete = "false"),
+            value = @Queue(value = "email.queue", durable = "true"),
+            exchange = @Exchange(value = "email.direct", durable = "true", autoDelete = "false"),
             key = {"email"}
     ))
     public void listen(Message message) {
@@ -39,7 +40,6 @@ public class SpringRabbitListener {
         if (stringRedisTemplate.opsForValue().get(id) == null) {
             String email = new String(message.getBody());
             MailCodeUtils.sendMail(email, code);
-            log.info("code={}", code);
 
             //1.将生成的验证码保存到session
 //            session.setAttribute(email, code);
@@ -47,7 +47,8 @@ public class SpringRabbitListener {
             //2.将生成的验证码保存到redis，有效时间1分钟，不存在则创建
             stringRedisTemplate.opsForValue().setIfAbsent("login:code:" + email, code, 1, TimeUnit.MINUTES);
             //消息成功消费，把id存入redis，防止重复消费
-            stringRedisTemplate.opsForValue().set(id, "0");
+            stringRedisTemplate.opsForValue().set(id, "success");
         }
 
-    }}
+    }
+}
