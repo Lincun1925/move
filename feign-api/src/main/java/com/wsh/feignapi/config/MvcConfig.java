@@ -23,6 +23,7 @@ public class MvcConfig implements WebMvcConfigurer {
         //登录拦截器，拦截除了登录注册之外的所有请求，判断用户是否登录
         registry.addInterceptor(new LoginInterceptor(stringRedisTemplate)).excludePathPatterns(
                 "/user/login",
+                "/user/chat",
                 "/user/sendMsg/**",
                 "/user/register",
                 "/user/export",
