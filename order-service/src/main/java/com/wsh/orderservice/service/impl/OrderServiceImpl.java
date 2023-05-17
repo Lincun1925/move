@@ -11,7 +11,7 @@ import com.wsh.orderservice.mapper.OrderMapper;
 import com.wsh.orderservice.service.OrderService;
 import com.wsh.feignapi.utils.UserHolder;
 import feign.FeignException;
-import io.seata.spring.annotation.GlobalTransactional;
+//import io.seata.spring.annotation.GlobalTransactional;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
