@@ -84,19 +84,19 @@ ribbon:
     clients: # 指定饥饿加载的服务名称
       - carservice
 
-# 分布式事务
-seata:
-  registry:
-    type: nacos
-    nacos:
-      server-addr: 124.222.212.173:8848
-      namespace: ""
-      group: DEFAULT_GROUP
-      application: seata-server #tc服务名称
-      username: nacos
-      password: nacos
-  data-source-proxy-mode: AT
-  tx-service-group: carservice-group #事务组
-  service:
-    vgroup-mapping: #事务组与tc服务集群的映射关系
-      carservice-group: default
+## 分布式事务
+#seata:
+#  registry:
+#    type: nacos
+#    nacos:
+#      server-addr: 124.222.212.173:8848
+#      namespace: ""
+#      group: DEFAULT_GROUP
+#      application: seata-server #tc服务名称
+#      username: nacos
+#      password: nacos
+#  data-source-proxy-mode: AT
+#  tx-service-group: carservice-group #事务组
+#  service:
+#    vgroup-mapping: #事务组与tc服务集群的映射关系
+#      carservice-group: default

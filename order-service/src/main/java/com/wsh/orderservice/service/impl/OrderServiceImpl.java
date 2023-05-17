@@ -32,7 +32,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Orders> implement
     private CarClient carClient;
 
     @Override
-    @GlobalTransactional
+//    @GlobalTransactional
     public Result delete(Long id) {
         //删除用户的车票订单
         User user = UserHolder.getUser();
@@ -54,7 +54,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Orders> implement
     }
 
     @Override
-    @GlobalTransactional
+//    @GlobalTransactional
     public Result buy(Long id) {
         Car car = carClient.getById(id);
         if (car.getStock() == 0) {
