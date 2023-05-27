@@ -5,16 +5,16 @@ spring:
     name: userservice
   cloud:
     nacos:
-      server-addr: 124.222.212.173:8848 #nacos地址
+      server-addr: 123.207.210.137:8848 #nacos地址
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: 1234
-    url: jdbc:mysql://124.222.212.173:3306/move?useSSL=false&characterEncoding=utf-8
+    url: jdbc:mysql://123.207.210.137:3306/move?useSSL=false&characterEncoding=utf-8
     type: com.alibaba.druid.pool.DruidDataSource
   redis:
-    host: 124.222.212.173
+    host: 123.207.210.137
     port: 6379
     lettuce:
       pool:
@@ -26,7 +26,7 @@ spring:
   rabbitmq:
     port: 5672
     virtual-host: /
-    host: 124.222.212.173
+    host: 123.207.210.137
     username: root
     password: root
     #生产者确认机制
