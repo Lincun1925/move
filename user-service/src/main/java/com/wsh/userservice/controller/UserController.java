@@ -31,6 +31,7 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
 import org.springframework.http.*;
@@ -76,33 +77,38 @@ public class UserController {
 //        } catch (Exception e) {
 //            return Result.error("请求失败");
 //        }
-        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-        CloseableHttpResponse response = null;
-        Random random = new Random();
-        int target = random.nextInt(2);
-        if (target == 0){
-            HttpGet request = new HttpGet("http://apis.juhe.cn/fapigx/everyday/query?key=9c5a4167c018a215c581acf61d2a4d3b");
-            request.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
-            request.setHeader(HttpHeaders.ACCEPT, "application/json");
-            response = httpClient.execute(request);
-        }else{
-            HttpGet request = new HttpGet("http://apis.juhe.cn/fapigx/pyqwenan/query?key=3be6f9655c933e1204e44fef3b8ce3a7");
-            request.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
-            request.setHeader(HttpHeaders.ACCEPT, "application/json");
-            response = httpClient.execute(request);
-        }
-        if (response.getStatusLine().getStatusCode() == 0) {
-            return Result.error("今日语句已展示完毕");
-        } else {
-            String s = EntityUtils.toString(response.getEntity());
-            if (target == 0){
-                enEntity enEntity = JSON.parseObject(s, enEntity.class);
-                return Result.success(enEntity.result.content);
-            }else {
-                pyqEntity pyqEntity = JSON.parseObject(s, pyqEntity.class);
-                return Result.success(pyqEntity.result.content);
+        try (CloseableHttpClient httpClient = HttpClientBuilder.create().build()) {
+            CloseableHttpResponse response = null;
+            Random random = new Random();
+            int target = random.nextInt(2);
+            if (target == 0) {
+                HttpGet request = new HttpGet("http://apis.juhe.cn/fapigx/everyday/query?key=9c5a4167c018a215c581acf61d2a4d3b");
+                request.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
+                request.setHeader(HttpHeaders.ACCEPT, "application/json");
+                response = httpClient.execute(request);
+            } else {
+                HttpGet request = new HttpGet("http://apis.juhe.cn/fapigx/pyqwenan/query?key=3be6f9655c933e1204e44fef3b8ce3a7");
+                request.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
+                request.setHeader(HttpHeaders.ACCEPT, "application/json");
+                response = httpClient.execute(request);
             }
+            if (response.getStatusLine().getStatusCode() == 0) {
+                return Result.error("今日语句已展示完毕");
+            } else {
+                String s = EntityUtils.toString(response.getEntity());
+                if (target == 0) {
+                    enEntity enEntity = JSON.parseObject(s, enEntity.class);
+                    return Result.success(enEntity.result.content);
+                } else {
+                    pyqEntity pyqEntity = JSON.parseObject(s, pyqEntity.class);
+                    return Result.success(pyqEntity.result.content);
+                }
+            }
+        } catch (Exception ex) {
+            return Result.error("出错了");
         }
+
+
     }
 
     /**

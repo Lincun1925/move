@@ -18,7 +18,7 @@
         <java.version>1.8</java.version>
     </properties>
     <dependencies>
-<!--        导出excel所需依赖-->
+        <!--        导出excel所需依赖-->
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
@@ -35,7 +35,7 @@
             <version>4.1.2</version>
         </dependency>
 
-<!--        公用依赖-->
+        <!--        公用依赖-->
         <dependency>
             <groupId>com.wsh</groupId>
             <artifactId>feign-api</artifactId>
@@ -66,10 +66,16 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
+        <!--        网络编程-->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <version>4.5.13</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.10.2</version>
         </dependency>
     </dependencies>
 
