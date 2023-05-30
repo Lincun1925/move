@@ -34,6 +34,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.*;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.bind.annotation.*;
@@ -66,6 +67,15 @@ public class UserController {
     //远程调用
     @Resource
     private CarClient carClient;
+
+    @Resource
+    private StringRedisTemplate stringRedisTemplate;
+
+    @GetMapping("/news")
+    public Result news() {
+        log.error(JSON.toJSONString(stringRedisTemplate.opsForHash().entries("newsByDay")));
+        return Result.success(JSON.toJSONString(stringRedisTemplate.opsForHash().entries("newsByDay")));
+    }
 
     @GetMapping("/chat")
     public Result chat() throws IOException {
