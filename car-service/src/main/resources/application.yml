@@ -10,7 +10,7 @@ spring:
     sentinel:
       transport:
         dashboard: 123.207.210.137:8180
-        port: 8180
+        port: 8719
 #     数据源配置1，非读写分离
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
