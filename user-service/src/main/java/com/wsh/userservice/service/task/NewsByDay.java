@@ -37,7 +37,7 @@ public class NewsByDay {
                             String text = aClass.text().substring(2);
                             map.put(text, href);
                         }
-                        stringRedisTemplate.opsForHash().delete("newsByDay");
+                        stringRedisTemplate.delete("newsByDay");
                         stringRedisTemplate.opsForHash().putAll("newsByDay", map);
                     } catch (Exception e) {
                         throw new RuntimeException(e);
