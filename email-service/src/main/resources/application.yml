@@ -6,6 +6,12 @@ spring:
   cloud:
     nacos:
       server-addr: 123.207.210.137:8848 #nacos
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: Yqzx1925@qq.com
+    url: jdbc:mysql://123.207.210.137:3456/order?useSSL=false&characterEncoding=utf-8
+    type: com.alibaba.druid.pool.DruidDataSource
   rabbitmq:
     port: 5672
     virtual-host: /

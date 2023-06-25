@@ -1,5 +1,8 @@
 package com.wsh.emailservice.listener;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.wsh.emailservice.entity.MsgEntity;
+import com.wsh.emailservice.mapper.MsgMapper;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.annotation.Exchange;
@@ -23,6 +26,8 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 public class SpringRabbitListener {
     @Resource
+    private MsgMapper mapper;
+    @Resource
     private StringRedisTemplate stringRedisTemplate;
 
     @RabbitListener(bindings = @QueueBinding(
@@ -36,18 +41,32 @@ public class SpringRabbitListener {
         MessageProperties properties = message.getMessageProperties();
         //获取关联的ID
         String id = properties.getCorrelationId();
-        //Redis当中不存在，证明该消息未被消费
+        //Redis当中不存在
         if (stringRedisTemplate.opsForValue().get(id) == null) {
-            String email = new String(message.getBody());
-            MailCodeUtils.sendMail(email, code);
+            QueryWrapper<MsgEntity> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("msg_id", id);
+            //并且db当中不存在，证明该消息未被消费
+            MsgEntity entity = mapper.selectOne(queryWrapper);
+            if (entity == null) {
+                String email = new String(message.getBody());
+                MailCodeUtils.sendMail(email, code);
 
-            //1.将生成的验证码保存到session
+                //1.将生成的验证码保存到sessione
 //            session.setAttribute(email, code);
 
-            //2.将生成的验证码保存到redis，有效时间1分钟，不存在则创建
-            stringRedisTemplate.opsForValue().setIfAbsent("login:code:" + email, code, 1, TimeUnit.MINUTES);
-            //消息成功消费，把id存入redis，防止重复消费
-            stringRedisTemplate.opsForValue().set(id, "success");
+                //2.将生成的验证码保存到redis，有效时间1分钟，不存在则创建
+                stringRedisTemplate.opsForValue().setIfAbsent("login:code:" + email, code, 1, TimeUnit.MINUTES);
+                //消息成功消费，把消息id存入db
+                MsgEntity msgEntity = new MsgEntity();
+                msgEntity.setMsgId(Long.valueOf(id));
+                mapper.insert(msgEntity);
+                //把id存入redis，防止重复消费，缓存有效期为1天
+                stringRedisTemplate.opsForValue().set(id, "success", 1, TimeUnit.DAYS);
+            } else {
+                //db存在，redis不存在，证明缓存过期，则更新缓存
+                stringRedisTemplate.opsForValue().set(id, "success", 1, TimeUnit.DAYS);
+            }
+
         }
 
     }

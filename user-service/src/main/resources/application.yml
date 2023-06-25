@@ -10,8 +10,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: 1234
-    url: jdbc:mysql://123.207.210.137:3306/move?useSSL=false&characterEncoding=utf-8
+    password: Yqzx1925@qq.com
+    url: jdbc:mysql://123.207.210.137:3456/move?useSSL=false&characterEncoding=utf-8
     type: com.alibaba.druid.pool.DruidDataSource
   redis:
     host: 123.207.210.137
