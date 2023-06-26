@@ -10,6 +10,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * 消费消息信息
@@ -17,19 +18,16 @@ import java.time.LocalDateTime;
 @Data
 @TableName("msg")
 public class MsgEntity implements Serializable {
+    public MsgEntity(Long msgId){
+        this.msgId = msgId;
+    }
     @TableId(type = IdType.AUTO)
     private Long id;
     private Long msgId;
 
     @TableField(fill = FieldFill.INSERT)
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateTime;
 }

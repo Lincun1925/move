@@ -57,8 +57,7 @@ public class SpringRabbitListener {
                 //2.将生成的验证码保存到redis，有效时间1分钟，不存在则创建
                 stringRedisTemplate.opsForValue().setIfAbsent("login:code:" + email, code, 1, TimeUnit.MINUTES);
                 //消息成功消费，把消息id存入db
-                MsgEntity msgEntity = new MsgEntity();
-                msgEntity.setMsgId(Long.valueOf(id));
+                MsgEntity msgEntity = new MsgEntity(Long.valueOf(id));
                 mapper.insert(msgEntity);
                 //把id存入redis，防止重复消费，缓存有效期为1天
                 stringRedisTemplate.opsForValue().set(id, "success", 1, TimeUnit.DAYS);
