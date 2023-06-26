@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80033
 File Encoding         : 65001
 
-Date: 2023-06-25 21:42:21
+Date: 2023-06-26 20:44:02
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -20,8 +20,10 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `msg`;
 CREATE TABLE `msg` (
-  `id` int NOT NULL,
-  `msg_id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `msg_id` bigint NOT NULL,
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `msg_index` (`msg_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
