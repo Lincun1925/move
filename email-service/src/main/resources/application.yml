@@ -17,7 +17,7 @@ spring:
     virtual-host: /
     host: 123.207.210.137
     username: root
-    password: root
+    password: Yqzx1925@qq.com
     #消费者确认机制
     listener:
       simple:
@@ -37,4 +37,4 @@ spring:
         max-idle: 10
         min-idle: 1
         time-between-eviction-runs: 10s
-    password: 1234
+    password: Yqzx1925@qq.com

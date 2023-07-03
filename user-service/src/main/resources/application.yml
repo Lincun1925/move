@@ -22,13 +22,13 @@ spring:
         max-idle: 10
         min-idle: 1
         time-between-eviction-runs: 10s
-    password: 1234
+    password: Yqzx1925@qq.com
   rabbitmq:
     port: 5672
     virtual-host: /
     host: 123.207.210.137
     username: root
-    password: root
+    password: Yqzx1925@qq.com
     #生产者确认机制
     publisher-confirm-type: correlated #生产者确认异步回调
     publisher-returns: true #生产者回执

@@ -18,12 +18,15 @@ public class RedisConfig {
     @Value("${spring.redis.port}")
     private String port;
 
+    @Value("${spring.redis.password}")
+    private String password;
+
     @Bean
     public RedissonClient redissonClient() {
         //配置类
         Config config = new Config();
         //添加redis节点地址
-        config.useSingleServer().setAddress("redis://" + host + ":" + port).setPassword("1234");
+        config.useSingleServer().setAddress("redis://" + host + ":" + port).setPassword(password);
         //创建客户端
         return Redisson.create(config);
     }
