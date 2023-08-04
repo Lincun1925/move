@@ -1,4 +1,4 @@
-# 基于微服务的车票管理系统
+# 基于微服务的车票管理系统:clap:
 #### 功能描述：微服务车票系统，分管理员和普通用户两种角色。除了基本功能，可实现限流，一人一单，每日热搜等功能  
 #### 涉及技术栈：MySQL，Redis，RabbitMQ，MybatisPlus，SpringBoot，SpringCloud，Seata，Sentinel，Gateway，Jsoup，Nginx，Docker  
 ***
@@ -21,10 +21,10 @@
 ### 2. 数据库及事务
 + 基于MySQL存储业务数据，相关字段建立联合索引
 + 基于Redis缓存Token、验证码、MQ分布式ID和每日热搜，基于Redisson解决一人一单
-+ 基于Seata解决订单和车次服务之间的分布式事务
++ <ins>基于Seata解决订单和车次服务之间的分布式事务</ins>
 ### 3. 流量与进程监控
-+ 基于Gateway针对同一IP的所有请求做令牌桶限流，基于Sentinel对热门车次的购票请求做限流降级
++ <ins>基于Gateway针对同一IP的所有请求做令牌桶限流，基于Sentinel对热门车次的购票请求做限流降级</ins>
 + 基于jmx和visualVM监控业务服务的内存和CPU消耗
 ### 4. 网络编程
 + 利用Httpclient调用第三方API，利用FastJSON解析响应
-+ 利用Scheduled开启CompletableFuture任务，利用Jsoup每日定期爬取新闻热搜
++ <ins>利用Scheduled开启CompletableFuture任务，利用Jsoup每日定期爬取新闻热搜</ins>  
