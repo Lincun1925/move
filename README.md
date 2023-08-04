@@ -1,5 +1,6 @@
-# 基于微服务的分布式车票管理系统
-**分布式微服务车票系统，分管理员和普通用户两种角色。除了基本功能，可实现车次限流，一人一单，每日热搜等功能**
+# 基于微服务的车票管理系统
+#### 功能描述：微服务车票系统，分管理员和普通用户两种角色。除了基本功能，可实现限流，一人一单，每日热搜等功能  
+#### 涉及技术栈：MySQL，Redis，RabbitMQ，MybatisPlus，SpringBoot，SpringCloud，Seata，Sentinel，Gateway，Jsoup，Nginx，Docker  
 ***
 >管理员样例
 >> 账号：wsh  
