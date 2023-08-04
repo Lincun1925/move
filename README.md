@@ -1,4 +1,4 @@
-# 基于微服务的车票管理系统:clap:
+# 基于微服务的车票管理系统:blush:
 #### 功能描述：微服务车票系统，分管理员和普通用户两种角色。除了基本功能，可实现限流，一人一单，每日热搜等功能  
 #### 涉及技术栈：MySQL，Redis，RabbitMQ，MybatisPlus，SpringBoot，SpringCloud，Seata，Sentinel，Gateway，Jsoup，Nginx，Docker  
 ***
