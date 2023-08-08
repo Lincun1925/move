@@ -13,6 +13,7 @@ import com.wsh.userservice.entity.UserToken;
 import com.wsh.userservice.mapper.UserMapper;
 import com.wsh.userservice.service.UserService;
 import com.wsh.feignapi.utils.UserHolder;
+import io.seata.common.util.IdWorker;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageBuilder;
@@ -35,6 +36,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Resource
     private RabbitTemplate rabbitTemplate;
 
+    @Resource
+    private IdWorker idWorker;
+
     @Override
     public Result sendCode(String email) {
         if (StrUtil.isNotBlank(email)) {
@@ -49,7 +53,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             Message msg = MessageBuilder.withBody(email.getBytes())//消息体转字节
                     .setDeliveryMode(MessageDeliveryMode.PERSISTENT)//消息持久化
                     .setExpiration("15000")
-                    .setCorrelationId(IdUtil.getSnowflake().nextIdStr())
+                    .setCorrelationId(String.valueOf(idWorker.nextId()))
                     .build();
             rabbitTemplate.convertAndSend(exchangeName, "email", msg);
             return Result.success(null);

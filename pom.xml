@@ -36,6 +36,11 @@
 
 
     <dependencies>
+        <dependency>
+            <groupId>io.seata</groupId>
+            <artifactId>seata-spring-boot-starter</artifactId>
+            <version>1.4.2</version>
+        </dependency>
         <!--        mysql驱动-->
         <dependency>
             <groupId>mysql</groupId>

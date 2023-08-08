@@ -35,6 +35,7 @@ public class SpringRabbitListener {
             exchange = @Exchange(value = "email.direct", durable = "true", autoDelete = "false"),
             key = {"email"}
     ))
+    //TODO 分布式ID已换成改良雪花，后续改底层库表后修改下查表逻辑即可
     public void listen(Message message) {
         String code = ValidateCodeUtils.generateValidateCode4String(4).toString();
         //拿到消息属性

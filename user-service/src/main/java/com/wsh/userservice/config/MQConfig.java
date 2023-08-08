@@ -1,5 +1,6 @@
 package com.wsh.userservice.config;
 
+import io.seata.common.util.IdWorker;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
@@ -40,6 +41,7 @@ public class MQConfig {
         connectionFactory.setVirtualHost(virtualHost);
         return connectionFactory;
     }
+
     //rabbitmq添加回调函数，成功到达队列，返回ack，无法到达队列，返回nack
     //rabbitmq添加回执函数，当mandatory设置为true，消息无法路由到队列，则执行回执，否则直接丢弃
     @Bean
@@ -67,5 +69,10 @@ public class MQConfig {
         rabbitTemplate.setReturnCallback(returnCallback());
         rabbitTemplate.setConfirmCallback(confirmCallback());
         return rabbitTemplate;
+    }
+
+    @Bean
+    public IdWorker idWorker() {
+        return new IdWorker(1L);
     }
 }
